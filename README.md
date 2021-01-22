@@ -2,13 +2,15 @@
 Crypto Comrade!
 ===============
 
-This repository is meant to accompany the blog post **"Cryptography in Golang"**
-which hasn't been published yet.
+This repository is meant to accompany the blog post **"cryptocomrade: Cryptography in Golang"**:
+https://sphinx.rs/blog/golang_cryptography/
 
 It is meant to be a handy set of examples that are useful
 for writing cryptography applications in Golang.
 
-In the future I will extend it to include Rust examples.
+It's a work in progress. I will add more content.
+
+I'm also working on Rust cryptography code examples and blog post as well.
 
 
 Acknowledgements
