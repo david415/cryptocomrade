@@ -1,4 +1,4 @@
-package cryptocomrade
+package secretbox
 
 import (
 	"crypto/rand"

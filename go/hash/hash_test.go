@@ -1,4 +1,4 @@
-package cryptocomrade
+package hash
 
 import (
 	"crypto/rand"
