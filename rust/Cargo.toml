@@ -10,3 +10,4 @@ snow = { version = "0.7.2", features = ["hfs", "pqclean_kyber1024"] }
 subtle = "2.4.0"
 ecdh_wrapper = "0.0.9"
 rand = "^0.4.2"
+oqs = "0.2"
