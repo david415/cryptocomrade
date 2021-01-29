@@ -3,11 +3,11 @@ name = "rust"
 version = "0.0.0"
 authors = ["David Stainton <dstainton415@gmail.com>"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 snow = { version = "0.7.2", features = ["hfs", "pqclean_kyber1024"] }
 subtle = "2.4.0"
 ecdh_wrapper = "0.0.9"
 rand = "^0.4.2"
 oqs = "0.2"
+#pqcrypto-classicmceliece = "0.1.1"
+rust-sike = "0.2.0"
