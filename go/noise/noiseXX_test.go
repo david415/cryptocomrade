@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestNoiseKyberXX(t *testing.T) {
+func TestNoiseXX(t *testing.T) {
 
 	clientStaticKeypair, err := noise.DH25519.GenerateKeypair(rand.Reader)
 	require.NoError(t, err)
@@ -16,12 +16,12 @@ func TestNoiseKyberXX(t *testing.T) {
 	serverStaticKeypair, err := noise.DH25519.GenerateKeypair(rand.Reader)
 	require.NoError(t, err)
 
-	cs := noise.NewCipherSuiteHFS(noise.DH25519, noise.CipherChaChaPoly, noise.HashBLAKE2b, noise.HFSKyber)
+	cs := noise.NewCipherSuite(noise.DH25519, noise.CipherChaChaPoly, noise.HashBLAKE2b)
 
 	client, err := noise.NewHandshakeState(noise.Config{
 		CipherSuite:   cs,
 		Random:        rand.Reader,
-		Pattern:       noise.HandshakeXXhfs,
+		Pattern:       noise.HandshakeXX,
 		Initiator:     true,
 		StaticKeypair: clientStaticKeypair,
 	})
@@ -29,12 +29,12 @@ func TestNoiseKyberXX(t *testing.T) {
 	server, err := noise.NewHandshakeState(noise.Config{
 		CipherSuite:   cs,
 		Random:        rand.Reader,
-		Pattern:       noise.HandshakeXXhfs,
+		Pattern:       noise.HandshakeXX,
 		Initiator:     false,
 		StaticKeypair: serverStaticKeypair,
 	})
 
-	// -> e, e1
+	// -> e
 	msg, _, _, err := client.WriteMessage(nil, nil)
 	require.NoError(t, err)
 	t.Logf("msg 1 len is %d", len(msg))
@@ -42,7 +42,7 @@ func TestNoiseKyberXX(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, string(res), "")
 
-	// <- e, ee, ekem1, s, es
+	// <- e, ee, s, es
 	msg, _, _, err = server.WriteMessage(nil, nil)
 	require.NoError(t, err)
 	t.Logf("msg 2 len is %d", len(msg))

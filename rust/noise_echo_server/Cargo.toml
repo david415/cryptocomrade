@@ -1,0 +1,11 @@
+[package]
+name = "noise_echo_server"
+version = "0.0.1"
+authors = ["David Stainton <dstainton415@gmail.com>"]
+
+[dependencies]
+snow = { path = "/home/user/code/snow", features = ["hfs", "oqs_kyber1024"] }
+#snow = { git = "https://github.com/david415/snow", branch = "add_hfs_kyber_nist_round_three", features = ["hfs", "oqs_kyber1024"] }
+ecdh_wrapper = { path = "/home/user/code/sphinx-cryptography/ecdh_wrapper" }
+rand = "^0.4.2"
+byteorder = "1.2.2"

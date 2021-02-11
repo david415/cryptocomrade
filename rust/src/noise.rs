@@ -12,11 +12,9 @@ mod tests {
     use self::ecdh_wrapper::PrivateKey;
     use self::rand::os::OsRng;
 
-    pub const PROLOGUE: [u8;1] = [0u8;1];
-    pub const PROLOGUE_SIZE: usize = 1;
     pub const NOISE_MESSAGE_MAX_SIZE: usize = 65535;
     pub const KEY_SIZE: usize = 32;
-    pub const NOISE_HANDSHAKE_MESSAGE1_SIZE: usize = PROLOGUE_SIZE + KEY_SIZE;
+    pub const NOISE_HANDSHAKE_MESSAGE1_SIZE: usize = KEY_SIZE;
     
     #[test]
     fn noise_kyber_test() {
@@ -30,13 +28,11 @@ mod tests {
         let mut alice_hs = Builder::new(params.clone())
             .local_private_key(&alice_private_key.to_vec())
             .remote_public_key(&bob_public_key.to_vec())
-            .prologue(&PROLOGUE)
             .build_initiator()
             .unwrap();
         let mut bob_hs = Builder::new(params)
             .local_private_key(&bob_private_key.to_vec())
             .remote_public_key(&alice_public_key.to_vec())
-            .prologue(&PROLOGUE)
             .build_responder()
             .unwrap();
 
@@ -46,14 +42,12 @@ mod tests {
         let mut msg = [0u8; NOISE_MESSAGE_MAX_SIZE];
         let len = alice_hs.write_message(b"", &mut msg).unwrap();
         assert_eq!(len, 1600);
-        let mut client_handshake1 = [0u8; 1600+1];
-        client_handshake1[0] = PROLOGUE[0];
-        client_handshake1[PROLOGUE_SIZE..].copy_from_slice(&msg[..len]);
+        let mut client_handshake1 = [0u8; 1600];
+        client_handshake1.copy_from_slice(&msg[..len]);
 
         // server side
-        assert_eq!(client_handshake1[0..PROLOGUE_SIZE].ct_eq(&PROLOGUE).unwrap_u8(), 1);
         let mut _msg1 = [0u8; NOISE_HANDSHAKE_MESSAGE1_SIZE];
-        let len = bob_hs.read_message(&client_handshake1[PROLOGUE_SIZE..], &mut _msg1).unwrap();
+        let len = bob_hs.read_message(&client_handshake1, &mut _msg1).unwrap();
         assert_eq!(len, 0);
 
         let mut server_handshake1 = [0u8; 1680];
