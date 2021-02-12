@@ -74,7 +74,7 @@ fn handle_client(stream: TcpStream, private_key: PrivateKey) {
         match stream.read_exact(&mut message_header_ciphertext) {
             Ok(()) => {
             }
-            Err(err) => {
+            Err(_) => {
                 println!("connection was closed");
                 break
             }
