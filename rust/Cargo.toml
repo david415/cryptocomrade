@@ -11,5 +11,5 @@ ecdh_wrapper = "0.0.9"
 rand = "^0.4.2"
 #pqcrypto-classicmceliece = "0.1.1"
 rust-sike = "0.2.0"
-oqs = "0.3.0"
+oqs = { git = "https://github.com/open-quantum-safe/liboqs-rust.git", branch = "main"  }
 
