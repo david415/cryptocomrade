@@ -23,6 +23,7 @@ func main() {
 		panic(err)
 	}
 	cs := noise.NewCipherSuiteHFS(noise.DH25519, noise.CipherChaChaPoly, noise.HashBLAKE2b, noise.HFSKyber)
+	fmt.Printf("cipher suite name: %s\n", cs.Name())
 	//cs := noise.NewCipherSuite(noise.DH25519, noise.CipherChaChaPoly, noise.HashBLAKE2b)
 	hs, err := noise.NewHandshakeState(noise.Config{
 		CipherSuite: cs,
@@ -43,7 +44,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("msg1 len is %d\n", len(msg1))
 	_, err = conn.Write(msg1)
 	if err != nil {
 		panic(err)
@@ -55,7 +55,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("msg2 len is %d\n", len(msg2))
 	_, _, _, err = hs.ReadMessage(nil, msg2)
 	if err != nil {
 		panic(err)
@@ -63,7 +62,6 @@ func main() {
 
 	// -> s, se
 	msg3, tx, rx, err := hs.WriteMessage(nil, nil)
-	fmt.Printf("msg3 len is %d\n", len(msg3))
 	_, err = conn.Write(msg3)
 	if err != nil {
 		panic(err)
@@ -72,7 +70,6 @@ func main() {
 	// send message
 	plaintext := []byte("hello Alice\n")
 	ctLen := macLen + len(plaintext)
-	fmt.Printf("ctLen is %d\n", ctLen)
 	var ctHdr [4]byte
 	binary.BigEndian.PutUint32(ctHdr[:], uint32(ctLen))
 	toSend := make([]byte, 0, macLen+4+ctLen)
@@ -97,7 +94,6 @@ func main() {
 	if ctLen2 < macLen || ctLen2 > maxMsgLen {
 		panic("wtf")
 	}
-	fmt.Printf("ctLen2 is %d\n", ctLen2)
 	ct := make([]byte, ctLen2)
 	_, err = io.ReadFull(conn, ct)
 	if err != nil {
